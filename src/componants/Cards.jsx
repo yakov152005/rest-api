@@ -7,7 +7,9 @@ export default function Cards(props) {
                 props.cards.map((card, index) => (
                     <Item
                         key={index}
+                        number={card.number}
                         name={card.name}
+                        attacks={card.attacks}
                         image={card.image}
                         date={card.date}
                     />

@@ -4,6 +4,7 @@ import {API_POKEMON} from "../utils/constant";
 
 export default function Manager() {
     const [dataCard, setDataCard] = useState([]);
+    const [name, setName] = useState('');
 
     useEffect(() => {
 
@@ -16,8 +17,10 @@ export default function Manager() {
 
                 const formatDataCard = result.data.map
                 (card => ({
+                    number: card.number,
                     name: card.name,
                     date: card.set.releaseDate,
+                    attacks: card.attacks,
                     image: card.images.small,
                 }))
                 setDataCard(formatDataCard);
@@ -31,8 +34,21 @@ export default function Manager() {
 
 
     return (
-        <div className="Manager">
-            <Cards cards={dataCard}></Cards>
+        <div>
+            <div>
+                <div>
+                    <h1>Hello {name ? name : "Guest"}</h1>
+                    <input
+                        className="name-input"
+                        placeholder="Enter your name"
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                    />
+                </div>
+            </div>
+            <div className="Manager">
+                <Cards cards={dataCard}></Cards>
+            </div>
         </div>
     )
 }
