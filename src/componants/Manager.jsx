@@ -4,7 +4,11 @@ import {API_POKEMON} from "../utils/constant";
 
 export default function Manager() {
     const [dataCard, setDataCard] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [name, setName] = useState('');
+    const [count, setCount] = useState(0);
+
 
     useEffect(() => {
 
@@ -24,13 +28,46 @@ export default function Manager() {
                     image: card.images.small,
                 }))
                 setDataCard(formatDataCard);
+                setLoading(false);
             } catch (err) {
                 console.log(err);
+                setError("Failed to fetch data.");
+                setLoading(false);
             }
         }
         fetchDataCard()
 
     }, []);
+
+
+    if (loading) {
+        return (
+            <div>
+                <div>
+                    <b>Loading...</b>
+                    <div className="spinner-border text-primary" role="status"/>
+                </div>
+                <div>
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => setCount(count + 1)}
+                    >
+                        👍🏻
+                    </button>
+                    <b style={{color: "blue"}}>{count}</b>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    if (dataCard.length === 0) {
+        return <div>No data found.</div>;
+    }
 
 
     return (
